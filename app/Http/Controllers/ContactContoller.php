@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 class ContactContoller extends Controller
 {
@@ -35,8 +36,15 @@ class ContactContoller extends Controller
         return view('users.updateContact',compact('contact'));
     }
     public function edit(Request $request ,$id){
+        $validated = $request->validate([
+            'name' =>'required',
+            'address' =>'required',
+            'phone' =>'required',
+            'age' =>'required',
+        ]);
+
         $contact = Contact::find($id);
-        $contact->update($request->all());
+        $contact->update($validated);
         return redirect(route('contact.view'));
     }
     public function delete($id){
@@ -48,5 +56,15 @@ class ContactContoller extends Controller
         $success =session('success');
         $contacts = Contact::all()->sortBy($request->get('sortKey'));
         return view('users.showContacts',compact('contacts', 'success'));
+    }
+    public function search(Request $request){
+       $search = $request->input('search');
+       $contacts = Contact::when($search, function ($query, $search) {
+        return $query->where('name', 'like', "%$search%");
+                    //  ->orWhere('email', 'like', "%$search%")
+                    //  ->orWhere('phone', 'like', "%$search%");
+    })->get();
+$success = session('success');
+    return  view('users.showContacts',compact('contacts', 'success'));
     }
 }
