@@ -23,6 +23,9 @@ class User extends Authenticatable
         'password',
     ];
 
+    public function contacts(){
+        return $this->hasMany(Contact::class);
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

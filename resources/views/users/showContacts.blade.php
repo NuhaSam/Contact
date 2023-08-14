@@ -45,7 +45,7 @@
       </tr>
     </thead>
     <tbody>
-      @foreach($contacts as $contact)
+      @forelse($contacts as $contact)
       <tr>
         <th scope="row">{{ $contact->id }}</th>
         <td>{{ $contact->name }}</td>
@@ -67,7 +67,11 @@
 
         </td>
       </tr>
-      @endforeach
+      @empty
+      <tr></tr>
+      <tr>
+      <td class="" colspan="6" style="text-align: center; font-weight:bold;"> No Contact Found</td></tr>
+      @endforelse
     </tbody>
   </table>
 
