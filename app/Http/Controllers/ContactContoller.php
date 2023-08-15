@@ -81,4 +81,10 @@ class ContactContoller extends Controller
         $success = session('success');
         return  view('users.showContacts', compact('contacts', 'success'));
     }
+    public function filter(Request $request){
+        $name = $request->input('name');
+        $contacts =  Contact::where('name','LIKE', "%$name%")->get();
+        $success = session('success');
+        return  view('users.showContacts', compact('contacts', 'success'));
+    }
 }

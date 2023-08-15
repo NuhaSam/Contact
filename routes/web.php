@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/contact/sort', [ContactContoller::class,'sort'])->name('contact.sort');
     Route::post('/contact/search', [ContactContoller::class,'search'])->name('contact.search');
+    Route::post('/contact/filter', [ContactContoller::class,'filter'])->name('contact.filter');
 });
 // Route::resource('contacts/',ContactContoller::class);
 
